@@ -1,0 +1,19 @@
+{
+  "swagger": {
+    "info": {
+      "description": "",
+      "version": "1.0.0",
+      "title": "Test tsoa"
+    },
+    "schemes": ["http", "https"]
+  },
+  "ouputDirectory": "./dist",
+  "entryFile": "./src/app.ts",
+  "host": "localhost:3000",
+  "basePath": "/",
+  "routes": {
+    "basePath": "/api",
+    "entryFile": "./src/app.ts",
+    "routesDir": "./src/routesMiddleware"
+  }
+}

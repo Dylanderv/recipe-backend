@@ -1,0 +1,22 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution" : "node",
+    "esModuleInterop": true,
+    "lib": [
+      "es2018"
+    ],
+    "types": [
+      "node"
+    ],
+    "sourceMap": true,
+    "baseUrl": "./src"
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}
