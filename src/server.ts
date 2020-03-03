@@ -1,7 +1,12 @@
 import bodyParser from 'koa-bodyparser'
 import session from 'koa-session'
 import cors from "@koa/cors";
-import { marmitonRouter } from "./routes/marmitonRouter"
+import Router from "koa-router"
+import Logger from "koa-logger";
+import { RegisterRoutes } from './routes/routes';
+
+// Needed for tsoa route & swagger generation
+import { MarmitonController } from "./controller/marmitonController"
 
 let listenPort = process.env.PORT || 3000;
 
@@ -42,7 +47,12 @@ async function bootstrap() {
     credentials: true
   }));
 
-  app.use(marmitonRouter.routes(), marmitonRouter.allowedMethods());
+  app.use(Logger())
+
+  const koaRouter = new Router();
+  RegisterRoutes(koaRouter);
+  app.use(koaRouter.allowedMethods());
+  app.use(koaRouter.routes());
 
   app.listen({ port: listenPort }, () =>
     console.log(`🚀 Server readyy at http://localhost:${listenPort}`),
