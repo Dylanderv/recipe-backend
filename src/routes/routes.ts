@@ -4,6 +4,8 @@
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { MarmitonController } from './../controller/marmitonController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { UserController } from './../controller/userController';
 import * as KoaRouter from 'koa-router';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -49,6 +51,30 @@ const models: TsoaRoute.Models = {
             "nbPerson": { "dataType": "double", "required": true },
             "steps": { "dataType": "array", "array": { "ref": "MarmitonRecipeStep" }, "required": true },
             "stepNumber": { "dataType": "double", "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "User": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "string", "required": true },
+            "username": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
+            "hashedPassword": { "dataType": "string", "required": true },
+            "createdAt": { "dataType": "datetime", "required": true },
+            "updatedAt": { "dataType": "datetime", "required": true },
+            "role": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserInput": {
+        "dataType": "refObject",
+        "properties": {
+            "username": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
+            "password": { "dataType": "string", "required": true },
         },
         "additionalProperties": true,
     },
@@ -119,6 +145,46 @@ export function RegisterRoutes(router: KoaRouter) {
             const controller = new MarmitonController();
 
             const promise = controller.getRecipe.apply(controller, validatedArgs as any);
+            return promiseHandler(controller, promise, context, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    router.get('/api/user',
+        async (context: any, next: any) => {
+            const args = {
+                id: { "in": "query", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
+            }
+
+            const controller = new UserController();
+
+            const promise = controller.getUser.apply(controller, validatedArgs as any);
+            return promiseHandler(controller, promise, context, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    router.post('/api/user',
+        async (context: any, next: any) => {
+            const args = {
+                userInput: { "in": "body", "name": "userInput", "required": true, "ref": "UserInput" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
+            }
+
+            const controller = new UserController();
+
+            const promise = controller.createUser.apply(controller, validatedArgs as any);
             return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

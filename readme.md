@@ -17,3 +17,13 @@ First step:
 Second step:
 - NutritionalInfo(aliment:unique, info)
 - Aliment(name:unique)
+
+
+## DB setup
+
+docker run -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 postgres
+
+export DATABASE_HOST=localhost
+export DATABASE_USER=postgres
+export DATABASE_DB=postgres
+export DATABASE_PASSWORD=mysecretpassword

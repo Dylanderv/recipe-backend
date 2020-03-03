@@ -4,9 +4,11 @@ import cors from "@koa/cors";
 import Router from "koa-router"
 import Logger from "koa-logger";
 import { RegisterRoutes } from './routes/routes';
+import { postgresDB } from './database/postgres-db';
 
 // Needed for tsoa route & swagger generation
 import { MarmitonController } from "./controller/marmitonController"
+import { UserController } from "./controller/userController"
 
 let listenPort = process.env.PORT || 3000;
 
@@ -28,7 +30,7 @@ const SESSION_CONFIG = {
 
 async function bootstrap() {
 
-  // await postgresDB();
+  await postgresDB();
 
   // Sessions
   /*
