@@ -6,6 +6,9 @@ import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } 
 import { MarmitonController } from './../controller/marmitonController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UserController } from './../controller/userController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { AuthController } from './../controller/authController';
+import { koaAuthentication } from './../auth/index';
 import * as KoaRouter from 'koa-router';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -64,7 +67,7 @@ const models: TsoaRoute.Models = {
             "hashedPassword": { "dataType": "string", "required": true },
             "createdAt": { "dataType": "datetime", "required": true },
             "updatedAt": { "dataType": "datetime", "required": true },
-            "role": { "dataType": "string", "required": true },
+            "roles": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
         },
         "additionalProperties": true,
     },
@@ -73,6 +76,15 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "username": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
+            "password": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AuthInput": {
+        "dataType": "refObject",
+        "properties": {
             "email": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
         },
@@ -185,6 +197,26 @@ export function RegisterRoutes(router: KoaRouter) {
             const controller = new UserController();
 
             const promise = controller.createUser.apply(controller, validatedArgs as any);
+            return promiseHandler(controller, promise, context, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    router.post('/api/auth/login',
+        async (context: any, next: any) => {
+            const args = {
+                authInput: { "in": "body", "name": "authInput", "required": true, "ref": "AuthInput" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
+            }
+
+            const controller = new AuthController();
+
+            const promise = controller.authenticate.apply(controller, validatedArgs as any);
             return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

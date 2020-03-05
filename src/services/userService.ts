@@ -18,7 +18,7 @@ export class UserService {
     user.username = userInput.username;
     user.hashedPassword = hash;
     user.email = userInput.email;
-    user.role = 'USER';
+    user.roles = ['USER'];
     const error = await validate(user);
     if (error.length > 0) {
       // Handle error

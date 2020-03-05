@@ -24,6 +24,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @Column("text")
-  role: string;
+  @Column("simple-array")
+  roles: string[];
 }

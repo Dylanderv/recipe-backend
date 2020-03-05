@@ -186,8 +186,11 @@
 					"type": "string",
 					"format": "date-time"
 				},
-				"role": {
-					"type": "string"
+				"roles": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
 				}
 			},
 			"required": [
@@ -197,7 +200,7 @@
 				"hashedPassword",
 				"createdAt",
 				"updatedAt",
-				"role"
+				"roles"
 			],
 			"type": "object",
 			"additionalProperties": true
@@ -216,6 +219,22 @@
 			},
 			"required": [
 				"username",
+				"email",
+				"password"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"AuthInput": {
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"required": [
 				"email",
 				"password"
 			],
@@ -350,6 +369,34 @@
 						"required": true,
 						"schema": {
 							"$ref": "#/definitions/UserInput"
+						}
+					}
+				]
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "Authenticate",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"additionalProperties": true,
+							"type": "object"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "authInput",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/AuthInput"
 						}
 					}
 				]
