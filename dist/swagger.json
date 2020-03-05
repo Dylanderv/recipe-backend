@@ -401,6 +401,51 @@
 					}
 				]
 			}
+		},
+		"/auth/refreshTokens": {
+			"post": {
+				"operationId": "RefreshTokens",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"additionalProperties": true,
+							"type": "object"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "refreshToken",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "Logout",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
 		}
 	},
 	"produces": [

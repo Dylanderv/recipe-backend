@@ -4,8 +4,7 @@ import { JWT_SECRET } from '../env';
 
 export function koaAuthentication(request: Request, securityName: string, scopes?: string[]): Promise<any> {
   if (securityName === 'jwt') {
-    const token = request.headers['x-access-token'];
-
+    const token = request.headers['authorization'];
     return new Promise((resolve, reject) => {
       if (!token) {
         reject(new Error("No token provided"))

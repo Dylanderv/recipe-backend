@@ -1,6 +1,6 @@
-import { Controller, Route, Post, Body, Request } from "tsoa";
+import { Controller, Route, Post, Body, Request, Security } from "tsoa";
 import { AuthInput } from "../model/authInput";
-import { authenticate } from "../auth/jwt";
+import { authenticate, refreshUsersToken } from "../auth/jwt";
 
 @Route("auth")
 export class AuthController extends Controller {
@@ -18,11 +18,23 @@ export class AuthController extends Controller {
     return tokens;
   }
 
-  public async refreshTokens() {
-
+  @Post("refreshTokens")
+  public async refreshTokens(@Body() refreshToken: string) {
+    let tokens;
+    try {
+      tokens = await refreshUsersToken(refreshToken);
+    } catch (err) {
+      // TODO: Handle err
+      throw err;
+    }
+    return tokens
   }
 
-  public async logout() {
+  @Security("jwt")
+  @Post("logout")
+  public async logout(@Request() request: any) {
+    let userId = request.user.id
+    console.log(request, request.user)
 
   }
 }

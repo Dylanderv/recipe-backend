@@ -220,7 +220,101 @@ export function RegisterRoutes(router: KoaRouter) {
             return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    router.post('/api/auth/refreshTokens',
+        async (context: any, next: any) => {
+            const args = {
+                refreshToken: { "in": "body", "name": "refreshToken", "required": true, "dataType": "string" },
+            };
 
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
+            }
+
+            const controller = new AuthController();
+
+            const promise = controller.refreshTokens.apply(controller, validatedArgs as any);
+            return promiseHandler(controller, promise, context, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    router.post('/api/auth/logout',
+        authenticateMiddleware([{ "jwt": [] }]),
+        async (context: any, next: any) => {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
+            }
+
+            const controller = new AuthController();
+
+            const promise = controller.logout.apply(controller, validatedArgs as any);
+            return promiseHandler(controller, promise, context, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return async (context: any, next: any) => {
+            let responded = 0;
+            let success = false;
+
+            const succeed = async (user: any) => {
+                if (!success) {
+                    success = true;
+                    responded++;
+                    context.request['user'] = user;
+                    await next();
+                }
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            const fail = async (error: any) => {
+                responded++;
+                if (responded == security.length && !success) {
+                    // this is an authentication error
+                    context.status = error.status || 401;
+                    context.throw(context.status, error.message, error);
+                } else if (success) {
+                    // the authentication was a success but arriving here means the controller
+                    // probably threw an error that we caught as well
+                    // so just pass it on
+                    throw error;
+                }
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            for (const secMethod of security) {
+                if (Object.keys(secMethod).length > 1) {
+                    let promises: Promise<any>[] = [];
+
+                    for (const name in secMethod) {
+                        promises.push(koaAuthentication(context.request, name, secMethod[name]));
+                    }
+
+                    return Promise.all(promises)
+                        .then((users) => succeed(users[0]))
+                        .catch(fail);
+                } else {
+                    for (const name in secMethod) {
+                        return koaAuthentication(context.request, name, secMethod[name])
+                            .then(succeed)
+                            .catch(fail);
+                    }
+                }
+            }
+        }
+    }
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
