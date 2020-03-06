@@ -87,6 +87,22 @@ export async function refreshUsersToken(refreshToken: string) {
   return await createBindAndClean(user);
 }
 
+export async function refreshAccessTokenOnly(refreshToken: string) {
+  let decodedToken;
+  try {
+    decodedToken = decodeAndVerifyToken(refreshToken, TokenEnum.REFRESH_TOKEN);
+  } catch (err) {
+    throw err
+  }
+  let user: User;
+  try {
+    user = await UserService.getUser(decodedToken.id);
+  } catch (err) {
+    throw new Error("Error while fetching user")
+  }
+  return createToken({id: user.id, roles: user.roles}, ACCESS_TOKEN_EXPIRE, TokenEnum.ACCESS_TOKEN)
+}
+
 export async function logOutUser(userId: string, refreshToken: string) {
   // Mark it as invalid in the database
   await removeRefreshToken(userId, refreshToken);

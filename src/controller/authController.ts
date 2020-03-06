@@ -1,6 +1,6 @@
 import { Controller, Route, Post, Body, Request, Security } from "tsoa";
 import { AuthInput } from "../model/authInput";
-import { authenticate, refreshUsersToken, logOutUser } from "../auth/jwt";
+import { authenticate, refreshUsersToken, logOutUser, refreshAccessTokenOnly } from "../auth/jwt";
 
 @Route("auth")
 export class AuthController extends Controller {
@@ -28,6 +28,17 @@ export class AuthController extends Controller {
       throw err;
     }
     return tokens
+  }
+
+  @Post("refreshAccessToken")
+  public async refreshAccessToken(@Body() data: {refreshtoken: string}) {
+    let token;
+    try {
+      token = await refreshAccessTokenOnly(data.refreshtoken);
+    } catch(err) {
+      throw err;
+    }
+    return token;
   }
 
   @Security("jwt")
