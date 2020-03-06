@@ -1,6 +1,6 @@
 import { Request } from 'koa';
 import { verify } from 'jsonwebtoken';
-import { JWT_SECRET } from '../env';
+import { ACCESS_TOKEN_SECRET } from '../env';
 
 export function koaAuthentication(request: Request, securityName: string, scopes?: string[]): Promise<any> {
   if (securityName === 'jwt') {
@@ -9,7 +9,7 @@ export function koaAuthentication(request: Request, securityName: string, scopes
       if (!token) {
         reject(new Error("No token provided"))
       }
-      verify(token, JWT_SECRET, function (err: any, decoded: any) {
+      verify(token, ACCESS_TOKEN_SECRET, function (err: any, decoded: any) {
         if (err) {
           reject(err)
         } else {

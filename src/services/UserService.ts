@@ -10,6 +10,11 @@ export class UserService {
     return await userRepository.findOne(id);
   }
 
+  public static async getUserByEmail(email: string): Promise<User> {
+    const userRepository: Repository<User> = getManager().getRepository(User);
+    return await userRepository.findOne({where: {email}})
+  }
+
   public static async createUser(userInput: UserInput): Promise<User> {
     const userRepository: Repository<User> = getManager().getRepository(User);
     const salt = bcrypt.genSaltSync();

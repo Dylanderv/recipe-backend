@@ -223,7 +223,7 @@ export function RegisterRoutes(router: KoaRouter) {
     router.post('/api/auth/refreshTokens',
         async (context: any, next: any) => {
             const args = {
-                refreshToken: { "in": "body", "name": "refreshToken", "required": true, "dataType": "string" },
+                data: { "in": "body", "name": "data", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "refreshtoken": { "dataType": "string", "required": true } } },
             };
 
             let validatedArgs: any[] = [];

@@ -421,9 +421,9 @@
 				"parameters": [
 					{
 						"in": "body",
-						"name": "refreshToken",
+						"name": "data",
 						"required": true,
-						"type": "string"
+						"type": "object"
 					}
 				]
 			}
