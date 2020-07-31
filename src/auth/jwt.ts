@@ -2,8 +2,8 @@ import { sign, verify } from "jsonwebtoken"
 import { User } from "../database/model/User"
 import bcrypt from "bcrypt";
 import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../env";
-import { RefreshTokenUserService } from "services/RefreshTokenUserService";
-import { UserService } from "services/UserService";
+import { RefreshTokenUserService } from "../services/RefreshTokenUserService";
+import { UserService } from "../services/UserService";
 
 export enum TokenEnum {
   ACCESS_TOKEN = "Access_Token",

@@ -1,0 +1,805 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"MarmitonSearchCategory": {
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": [
+							"Category"
+						],
+						"nullable": false
+					},
+					"title": {
+						"type": "string"
+					},
+					"img": {
+						"type": "string",
+						"nullable": true
+					},
+					"link": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"type",
+					"title",
+					"link"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"MarmitonSearchRecipe": {
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": [
+							"Recipe"
+						],
+						"nullable": false
+					},
+					"title": {
+						"type": "string"
+					},
+					"img": {
+						"type": "string",
+						"nullable": true
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"ratingFrac": {
+						"type": "number",
+						"format": "double"
+					},
+					"nbRating": {
+						"type": "number",
+						"format": "double"
+					},
+					"duration": {
+						"type": "number",
+						"format": "double"
+					},
+					"link": {
+						"type": "string",
+						"nullable": true
+					},
+					"category": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"type",
+					"title",
+					"duration",
+					"link",
+					"category"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"MarmitonSearch": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/MarmitonSearchCategory"
+					},
+					{
+						"$ref": "#/components/schemas/MarmitonSearchRecipe"
+					}
+				]
+			},
+			"recipeType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"enum": [
+							"Entrée"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Plat"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"principal"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Dessert"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Amuse-gueule"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Accompagnement"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Sauce"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Boisson"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Confiserie"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Conseil"
+						],
+						"nullable": false
+					}
+				]
+			},
+			"difficultyType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"enum": [
+							"très facile"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"facile"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Niveau moyen"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"difficile"
+						],
+						"nullable": false
+					}
+				]
+			},
+			"costType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"enum": [
+							"bon marché"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Coût moyen"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"assez cher"
+						],
+						"nullable": false
+					}
+				]
+			},
+			"particularityType": {
+				"anyOf": [
+					{
+						"type": "string",
+						"enum": [
+							"Végétarien"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Sans gluten"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Végan"
+						],
+						"nullable": false
+					},
+					{
+						"type": "string",
+						"enum": [
+							"Sans lactose"
+						],
+						"nullable": false
+					}
+				]
+			},
+			"inputSearchParams": {
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": [
+							"all"
+						],
+						"nullable": false
+					},
+					"offset": {
+						"type": "number",
+						"format": "double"
+					},
+					"recipeType": {
+						"items": {
+							"$ref": "#/components/schemas/recipeType"
+						},
+						"type": "array"
+					},
+					"difficulty": {
+						"$ref": "#/components/schemas/difficultyType"
+					},
+					"cost": {
+						"$ref": "#/components/schemas/costType"
+					},
+					"particularity": {
+						"$ref": "#/components/schemas/particularityType"
+					}
+				},
+				"type": "object",
+				"additionalProperties": true
+			},
+			"SearchParams": {
+				"properties": {
+					"searchField": {
+						"type": "string"
+					},
+					"filters": {
+						"$ref": "#/components/schemas/inputSearchParams"
+					}
+				},
+				"required": [
+					"searchField"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"MarmitonRecipeStep": {
+				"properties": {
+					"step": {
+						"type": "number",
+						"format": "double"
+					},
+					"info": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"step",
+					"info"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"MarmitonRecipe": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"ingredients": {},
+					"duration": {
+						"properties": {
+							"cookingDuration": {
+								"type": "number",
+								"format": "double"
+							},
+							"sleepDuration": {
+								"type": "number",
+								"format": "double"
+							},
+							"preparationDuration": {
+								"type": "number",
+								"format": "double"
+							},
+							"totalDuration": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"cookingDuration",
+							"preparationDuration",
+							"totalDuration"
+						],
+						"type": "object"
+					},
+					"nbPerson": {
+						"type": "number",
+						"format": "double"
+					},
+					"steps": {
+						"items": {
+							"$ref": "#/components/schemas/MarmitonRecipeStep"
+						},
+						"type": "array"
+					},
+					"stepNumber": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"ingredients",
+					"duration",
+					"nbPerson",
+					"steps",
+					"stepNumber"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"User": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"hashedPassword": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"roles": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"hashedPassword",
+					"createdAt",
+					"updatedAt",
+					"roles"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"UserInput": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"AuthInput": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "recipe-backend",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/marmiton": {
+			"get": {
+				"operationId": "Test",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/marmiton/search": {
+			"post": {
+				"operationId": "SearchRecipes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/MarmitonSearch"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SearchParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/marmiton/recipe": {
+			"post": {
+				"operationId": "GetRecipe",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MarmitonRecipe"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "url",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/user": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"refreshToken": {
+											"type": "string"
+										},
+										"accessToken": {
+											"type": "string"
+										}
+									},
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AuthInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refreshTokens": {
+			"post": {
+				"operationId": "RefreshTokens",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshtoken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshtoken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refreshAccessToken": {
+			"post": {
+				"operationId": "RefreshAccessToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshtoken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshtoken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "Logout",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshtoken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshtoken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/isauth": {
+			"get": {
+				"operationId": "IsAuth",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "https://localhost:1234/swagger"
+		}
+	]
+}

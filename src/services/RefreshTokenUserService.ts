@@ -1,6 +1,6 @@
-import { User } from "database/model/User";
+import { User } from "../database/model/User";
 import { getManager, Repository } from "typeorm";
-import { RefreshTokenUser } from "database/model/RefreshTokenUser";
+import { RefreshTokenUser } from "../database/model/RefreshTokenUser";
 import { decodeAndVerifyToken, TokenEnum } from "../auth/jwt";
 
 export class RefreshTokenUserService {

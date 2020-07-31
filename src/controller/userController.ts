@@ -2,6 +2,7 @@ import { Controller, Route, Post, Body, Get, Query } from "tsoa";
 import { UserInput } from "../model/userInput";
 import { User } from "../database/model/User";
 import { UserService } from "../services/UserService";
+import bcrypt from 'bcrypt';
 
 @Route("user")
 export class UserController extends Controller {

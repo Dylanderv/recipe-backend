@@ -1,19 +1,22 @@
 import bodyParser from 'koa-bodyparser'
 // import session from 'koa-session'
 import cors from "@koa/cors";
-import Router from "koa-router"
+import Router from "@koa/router"
 import Logger from "koa-logger";
 import { RegisterRoutes } from './routes/routes';
 import { postgresDB } from './database/postgres-db';
-import koaPassport from "koa-passport";
+// import passport from 'koa-passport';
+// import session from 'koa-session'
 
 // Needed for tsoa route & swagger generation
 import { MarmitonController } from "./controller/marmitonController"
 import { UserController } from "./controller/userController"
 import { AuthController } from "./controller/authController"
+import { oas } from 'koa-oas3'
+import logger from "koa-logger"
 
 
-let listenPort = process.env.PORT || 3000;
+let listenPort = process.env.PORT || 1234;
 
 const app = require('./app');
 
@@ -46,11 +49,23 @@ async function bootstrap() {
   // app.keys = ['super-secret-key'];
   // app.use(session(SESSION_CONFIG, app));
 
+
+  // require('./auth/auth');
+  // app.use(passport.initialize());
+  // app.use(passport.session());
+
   // Body Parser
   app.use(bodyParser());
   app.use(cors({
     credentials: true
   }));
+
+  // app.use(oas({
+  //   file: `${__dirname}/../swagger.json`,
+  //   endpoint: '/swagger.json',
+  //   uiEndpoint: '/',
+    
+  // }))
 
   app.use(Logger())
 
@@ -63,5 +78,7 @@ async function bootstrap() {
     console.log(`🚀 Server readyy at http://localhost:${listenPort}`),
   );
 }
+
+
 
 bootstrap();
